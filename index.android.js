@@ -11,11 +11,25 @@ import {
   Text,
   View
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+
+import UserPrompt from './UserPrompt';
+import Result from './Result';
+import Lifeline from './Lifeline';
+import Game from './Game';
+
+
 
 export default class KBK extends Component {
   render() {
+
+    const {navigate} = this.props.navigation ;
     return (
       <View style={styles.container}>
+        <UserPrompt/>
+        <Lifeline/>
+        <Result/>
+        <Game/>
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
@@ -26,6 +40,7 @@ export default class KBK extends Component {
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
+        <Button title = "Go to Game" onPress = {()=>navigate('Game')}  style={styles.btn}/>
       </View>
     );
   }
@@ -50,4 +65,13 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('KBK', () => KBK);
+
+const App = StackNavigator({
+  Home : {screen: KBK},
+  UserPrompt : {screen: UserPrompt},
+  Game : {screen:Game},
+  Result : {screen: Result},
+  Lifeline : {screen: Lifeline}
+});
+
+AppRegistry.registerComponent('KBK', () => App);
