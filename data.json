@@ -1,0 +1,213 @@
+{
+"q1":         [
+                {
+                "que": "Which of these sounds would you associate with the heart ?",
+                "A": "Tring Tring",
+                "B": "Tap Tap",
+                "C": "Click Click",
+                "D": "Dhak Dhak",
+                "desc": "",
+                "ans":"D"
+                },
+                {
+                "que": "",
+                "A": "A",
+                "B": "B",
+                "C": "C",
+                "D": "D",
+                "desc": "",
+                "ans":""
+                },
+                {
+                "que": "",
+                "A": "A",
+                "B": "B",
+                "C": "C",
+                "D": "D",
+                "desc": "",
+                "ans":""
+                }
+            ],
+
+   "q2":    [
+                 {
+                "que": "Who is the 'Bharat Ka Veer Putra Aaccording to the title of a 2013 TV Series ?",
+                "A": "Tipu Sultan",
+                "B": "Chandragupta Maurya",
+                "C": "Maharana Pratap",
+                "D": "Ashoka",
+                "desc": "",
+                "ans":"C"
+                }
+    
+            ],
+    "q3":   [
+                 {
+                "que": "In 2013, where did the natural calamity known as Himalayan tsunami occur?",
+                "A": "Uttrakhand",
+                "B": "Arunachal Pradesh",
+                "C": "Jammu and Kashmir",
+                "D": "Sikkim",
+                "desc": "",
+                "ans":"A"
+                }
+    
+            ],
+    "q4":   [
+                 {
+                "que": "Which film is 'Kashmir main tu Kanyakumari,North-South ki kat gayi dekho doori hi saari' song from ?",
+                "A": "Mere Dad Ki Maruti",
+                "B": "Chennai Express",
+                "C": "Ghanchakkar",
+                "D": "Race 2",
+                "desc": "",
+                "ans":"B"
+                }
+    
+            ],
+    "q5":   [
+                 {
+                "que": "In the Ramayana, Which demon impersonated Rama's voice, screaming, 'Lakshman! Help me' ?",
+                "A": "Surpanakha",
+                "B": "Khara",
+                "C": "Maricha",
+                "D": "Dushana",
+                "desc": "",
+                "ans":"C"
+                }
+    
+            ],
+    "q6":   [
+                 {
+                "que": "Who is the only leader to be elected Prime Minister of Pakistan three times ?",
+                "A": "Syed Yousaf Raza Gillani",
+                "B": "Benazir Bhutto",
+                "C": "Liaqat Ali Khan",
+                "D": "Nawaz Sharif",
+                "desc": "",
+                "ans":"D"
+                }
+    
+            ],
+    "q7":   [
+                 {
+                "que": "The black widow, which eats the male counterpart after mating, as a female species of which animal ?",
+                "A": "Sloth",
+                "B": "Ant",
+                "C": "Spider",
+                "D": "Termite",
+                "desc": "",
+                "ans":"C"
+                }
+    
+            ],
+    "q8":   [
+                 {
+                "que": "Douglas Engelbert, who passed away in 2013, is credited as the inventor of which of these products ?",
+                "A": "Mobile Phone",
+                "B": "Computer Mouse",
+                "C": "Bluetooth Mouse",
+                "D": "Digital camera",
+                "desc": "",
+                "ans":"B"
+                }
+    
+            ],
+    "q9":   [
+                 {
+                "que": "n 1850, the first experimental electric telegraph line in India was set up between Calcutta and which place ?",
+                "A": "Diamond Harbour",
+                "B": "Darjeeling",
+                "C": "Murshidabad",
+                "D": "Dhaka",
+                "desc": "",
+                "ans":"A"
+                }
+    
+            ],
+    "q10":   [
+                 {
+                "que": "Which of these persons has not walked on the Moon ?",
+                "A": "Charles Duke",
+                "B": "James A Lovell",
+                "C": "Alan Bean",
+                "D": "Pete Conrad",
+                "desc": "",
+                "ans":"B"
+                }
+    
+            ],
+    "q11":   [
+                {
+                "que": "Who was the chairman of the Indian Calendar Reform Committee that initiated the adoption of Saka calendar as the Indian national Calendar ?",
+                "A": "Meghnad Saha",
+                "B": "Subrahmanyan Chandrasekhar",
+                "C": "Prabodh Chandra Sengupta",
+                "D": "Vainu Bappu",
+                "desc": "",
+                "ans":"A"
+                }
+    
+            ],
+    "q12":   [
+                  {
+                "que": "'The Phrase 500 crore Club', often mentioned in Indian media nowadays, refers to which one of the following ?",
+                "A": "Viewership of an IPL match",
+                "B": "Election expenditure",
+                "C": "Population of countries",
+                "D": "Films box office collections",
+                "desc": "",
+                "ans":"D"
+                }
+    
+            ],
+    "q13":   [
+                 {
+                "que": "The 'sasural' of which of these international sports person from India is in Pakistan ?",
+                "A": "Saina Nehwal",
+                "B": "Saina Mirza",
+                "C": "Anisa Sayyed",
+                "D": "Anjum Chopra",
+                "desc": "",
+                "ans":"B"
+                }
+    
+            ],
+    "q14":   [
+                 {
+                "que": "Which team retained the ashes Trophy in 2013 ?",
+                "A": "Australia",
+                "B": "South Africa",
+                "C": "West Indies",
+                "D": "England ",
+                "desc": "",
+                "ans":"D"
+                }
+    
+            ],
+    "q15":   [
+                 {
+                "que": "With Which of these cards would you associate the phrase 'Aam Aadmi ka Adhikaar'?",
+                "A": "PAN Card",
+                "B": "Voter ID Card",
+                "C": "AADHAR Card",
+                "D": "Ration Card",
+                "desc": "",
+                "ans":"C"
+                }
+    
+            ],
+    "q16":   [
+                 {
+                "que": "Which of these words or phrases was famously used in many of his dialogues by actor Pran?",
+                "A": "Khamosh",
+                "B": "Barkhurdaar",
+                "C": "Jaani",
+                "D": "Babu Moshai",
+                "desc": "",
+                "ans":"B"
+                }
+    
+            ]
+    
+}
