@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import UserPrompt from './UserPrompt';
+import Data from './data.json'
 
 
 export default class Game extends Component{
@@ -19,7 +20,9 @@ constructor(){
     this.instuctionDone = this.instuctionDone.bind(this);
 }
 
-
+componentWillMount(){
+ console.warn(Data.q1[0].que);
+}
 
 
 componentDidMount(){
