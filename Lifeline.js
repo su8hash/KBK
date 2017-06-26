@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-export class Lifeline extends Component{
+export default class Lifeline extends Component{
     render(){
 
         const {navigate} = this.props.navigation ;

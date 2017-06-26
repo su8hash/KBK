@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-export class UserPrompt extends Component{
+export default class UserPrompt extends Component{
     render(){
 
-        const {navigate} = this.props.navigation ;
         return(
             <View>
                 <Text>
                     User Promt
                 </Text>
+                 <Button title = "Ok" onPress = {()=>this.props.instuctionDone()}  />
             </View>
         )
     }

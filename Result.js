@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-export class Result extends Component{
+export  default class Result extends Component{
     render(){
 
         const {navigate} = this.props.navigation ;

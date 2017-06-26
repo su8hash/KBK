@@ -9,27 +9,25 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Button,
+  BackAndroid
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator   } from 'react-navigation';
 
-import UserPrompt from './UserPrompt';
 import Result from './Result';
 import Lifeline from './Lifeline';
 import Game from './Game';
 
-
+BackAndroid.addEventListener("hardwareBackPress", () => {
+  return true;
+});
 
 export default class KBK extends Component {
   render() {
-
     const {navigate} = this.props.navigation ;
     return (
       <View style={styles.container}>
-        <UserPrompt/>
-        <Lifeline/>
-        <Result/>
-        <Game/>
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
@@ -67,11 +65,14 @@ const styles = StyleSheet.create({
 
 
 const App = StackNavigator({
-  Home : {screen: KBK},
-  UserPrompt : {screen: UserPrompt},
+  Home : {screen:KBK},
   Game : {screen:Game},
   Result : {screen: Result},
-  Lifeline : {screen: Lifeline}
-});
+  Lifeline : {screen: Lifeline},
+},
+ { 
+    headerMode: 'none' 
+  }
+);
 
 AppRegistry.registerComponent('KBK', () => App);
