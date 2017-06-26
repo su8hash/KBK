@@ -7,14 +7,39 @@ import {
 import { StackNavigator } from 'react-navigation';
 
 export  default class Result extends Component{
-    render(){
 
-        const {navigate} = this.props.navigation ;
+   constructor(){
+       super();
+       const {navigate,state} = this.props.navigation;
+       let result = state.props.result;
+
+      this.state = {result}
+
+       if(result){
+       setTimeout(()=>this.props.navigation.navigate('Game') )
+       }
+   }
+
+    render(){
+      
         return(
             <View>
                 <Text>
-                    Result
+                    Result is {this.state.result}
                 </Text>
+                 {this.getRetryView()}
+            </View>
+        )
+    }
+
+    getRetryView(){
+        if(this.state.result) return null;
+        
+        return (
+            <View>
+                <Text>  Seems Like you failed  </Text>
+                   <Button title = "Go Back to Game" onPress = {()=>this.props.navigation.navigate('Game',{retry:true})}  />
+                   <Button title = "Exit" onPress = {()=>this.props.navigation.navigate('Home')}  />
             </View>
         )
     }

@@ -16,8 +16,15 @@ export default class Game extends Component{
 
 constructor(){
     super();
-    this.state = {a: 1,instructionVisible:true};
+    this.state = {
+        a: 1,
+        instructionVisible:true,
+        i =0,
+        CurrentSet:Data.q1[i],
+    };
+
     this.instuctionDone = this.instuctionDone.bind(this);
+    this.CurrentQuestion  = Data.q1[index]
 }
 
 componentWillMount(){
@@ -27,10 +34,15 @@ componentWillMount(){
 
 componentDidMount(){
      BackHandler.addEventListener('backPress', () => {
-        console.warn("It's Here");
-        this.setState({a:++this.state.a});
         return true;
-   }); 
+   });
+
+  
+    if(this.props.navigation.state.props.retry){
+        // give a retry
+    }
+
+    this.setState({ CurrentQuestion : Data.q1[index] }); 
 }
 
 componentWillUnmount() {
@@ -58,12 +70,30 @@ componentWillUnmount() {
           >
            <UserPrompt instuctionDone = {this.instuctionDone}/>
           </Modal>
-
-                <Text>
-                   Game + {this.state.a}
-                </Text>
+                 <Text>{this.state.CurrentSet.que}</Text>
+                 <Button title = {this.state.CurrentSet.A} onPress = {()=>this.check('A')}  />
+                 <Button title = {this.state.CurrentSet.B} onPress = {()=>this.check('B')}  />
+                 <Button title = {this.state.CurrentSet.C} onPress = {()=>this.check('C')}  />
+                 <Button title = {this.state.CurrentSet.D} onPress = {()=>this.check('D')}  />
                  <Button title = "Go to Home" onPress = {()=>navigate('Home')}  />
+
+
+                 <Button title = "Use a Lifeline" onPress = {()=>navigate('Lifeline')}  />
             </View>
         )
+    }
+
+
+    check(value){
+        let result = false;
+        if(value === this.state.CurrentSet.ans){
+            //right answer give hime next answer
+            // dont call setState as it will navigate back
+            this.state.i++;
+            result = true;
+        }
+       
+
+        navigate('Result',{result})
     }
 }
