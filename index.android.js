@@ -16,7 +16,8 @@ import {
 import { StackNavigator   } from 'react-navigation';
 
 
-import Lifeline from './Lifeline';
+import Lifeline from './Lifeline';Instructions
+import Instructions from './Instructions';
 import Game from './Game';
 
 BackAndroid.addEventListener("hardwareBackPress", () => {
@@ -38,7 +39,7 @@ export default class KBK extends Component {
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
-        <Button title = "Go to Game" onPress = {()=>navigate('Game')}  style={styles.btn}/>
+        <Button title = "Go to Game" onPress = {()=>navigate('Instructions')}  style={styles.btn}/>
       </View>
     );
   }
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
 const App = StackNavigator({
   Home : {screen:KBK},
   Game : {screen:Game},
-  Lifeline : {screen: Lifeline},
+  Instructions : {screen: Instructions},
 },
  { 
     headerMode: 'none' 

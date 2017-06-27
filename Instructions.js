@@ -6,10 +6,11 @@ import {
   Button
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import Game from './Game';
 
-export default class UserPrompt extends Component{
+export default class Instructions extends Component{
     render(){
-
+  const {navigate} = this.props.navigation ;
         return(
             <View>
                 <Text>
@@ -21,7 +22,7 @@ export default class UserPrompt extends Component{
                    2) Double Try (You can try two answers)
                    3) Flip (You can change question before answering it)
                 </Text>
-                 <Button title = "Ok" onPress = {()=>this.props.instuctionDone()}  />
+                 <Button title = "Ok" onPress = {()=>navigate('Game')}  />
             </View>
         )
     }

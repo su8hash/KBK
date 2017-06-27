@@ -26,21 +26,8 @@ export  default class Result extends Component{
         return(
             <View>
                 <Text>
-                    Result is {this.state}
+                    Result is {this.props.result ? "Correct": "Wrong"}
                 </Text>
-                 {this.getRetryView()}
-            </View>
-        )
-    }
-
-    getRetryView(){
-        if(this.state) return null;
-        
-        return (
-            <View>
-                <Text>  Seems Like you failed  </Text>
-                   <Button title = "Go Back to Game" onPress = {()=>this.props.action()}  />
-                   <Button title = "Exit" onPress = {()=>this.props.navigation.navigate('Home')}  />
             </View>
         )
     }

@@ -8,7 +8,6 @@ import {
   Button
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import UserPrompt from './UserPrompt';
 import Result from './Result';
 import Data from './data.json'
 
@@ -24,6 +23,7 @@ constructor(){
         i: 1,
         CurrentSet: Data.q1[0],
         resultVisibility:false,
+        result:false
     };
 
     this.updateCycle = null;
@@ -60,22 +60,10 @@ componentWillUnmount() {
         const {navigate} = this.props.navigation ;
         return(
             <View>
-     
-{/*
-             <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={this.state.instructionVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
-          >
-           <UserPrompt instuctionDone = {this.instuctionDone}/>
-          </Modal>*/}
-
-
                 <Modal
                  onRequestClose={() => {null}}
                   visible={this.state.resultVisibility}  >
-                    <Result/>
+                    <Result result={this.state.result}/>
                 </Modal>
 
 
@@ -96,15 +84,13 @@ componentWillUnmount() {
 
     check(value){
         if(value){
-        let result = false;
+        let res = false;
         if(value === this.state.CurrentSet.ans){
-            //right answer give hime next answer
-            // dont call setState as it will navigate back
-            result = true;
+            res = true;
         }
        
   
-        this.setState({resultVisibility:true});
+        this.setState({resultVisibility:true,result:res});
         this.updateCycle = setTimeout(()=> {
             let a = this.state.i + 1;
             const j = "q" + a;
