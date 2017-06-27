@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
@@ -10,14 +11,14 @@ export  default class Result extends Component{
 
    constructor(){
        super();
-       const {navigate,state} = this.props.navigation;
-       let result = state.props.result;
+    //    const {navigate,state} = this.props.navigation;
+    //    let result = state.props.result;
 
-      this.state = {result}
+    //   this.state = {result}
 
-       if(result){
-       setTimeout(()=>this.props.navigation.navigate('Game') )
-       }
+    //    if(result){
+    //    setTimeout(()=>this.props.navigation.navigate('Game') )
+    //    }
    }
 
     render(){
@@ -25,7 +26,7 @@ export  default class Result extends Component{
         return(
             <View>
                 <Text>
-                    Result is {this.state.result}
+                    Result is {this.state}
                 </Text>
                  {this.getRetryView()}
             </View>
@@ -33,12 +34,12 @@ export  default class Result extends Component{
     }
 
     getRetryView(){
-        if(this.state.result) return null;
+        if(this.state) return null;
         
         return (
             <View>
                 <Text>  Seems Like you failed  </Text>
-                   <Button title = "Go Back to Game" onPress = {()=>this.props.navigation.navigate('Game',{retry:true})}  />
+                   <Button title = "Go Back to Game" onPress = {()=>this.props.action()}  />
                    <Button title = "Exit" onPress = {()=>this.props.navigation.navigate('Home')}  />
             </View>
         )

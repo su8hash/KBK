@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
 const App = StackNavigator({
   Home : {screen:KBK},
   Game : {screen:Game},
-  Result : {screen: Result},
   Lifeline : {screen: Lifeline},
 },
  { 

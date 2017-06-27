@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import UserPrompt from './UserPrompt';
+import Result from './Result';
 import Data from './data.json'
+
 
 
 export default class Game extends Component{
@@ -19,30 +21,46 @@ constructor(){
     this.state = {
         a: 1,
         instructionVisible:true,
-        i =0,
-        CurrentSet:Data.q1[i],
+        i: 0,
+        CurrentSet: Data.q1[0],
+        resultVisibility:false,
     };
 
     this.instuctionDone = this.instuctionDone.bind(this);
-    this.CurrentQuestion  = Data.q1[index]
+    // this.state.CurrentSet  = Data.q1[i]
 }
 
 componentWillMount(){
- console.warn(Data.q1[0].que);
+ // console.warn(Data.q1[0].que);
+  
 }
 
+
+
+componentWillUpdate(){
+  // console.warn(Data.q1[i]);
+    // this.setState({ i : this.state.i++ }); 
+    // console.warn(this.state.i);
+    // const j = "q" + this.state.i;
+    // this.setState({ CurrentSet : Data.j[this.state.i] }); 
+}
 
 componentDidMount(){
      BackHandler.addEventListener('backPress', () => {
         return true;
    });
 
-  
-    if(this.props.navigation.state.props.retry){
-        // give a retry
-    }
 
-    this.setState({ CurrentQuestion : Data.q1[index] }); 
+    // this.setState({ i : this.state.i++ }); 
+    // console.warn(this.state.i);
+    // const j = "q" + this.state.i;
+    // this.setState({ CurrentSet : Data.j[this.state.i] }); 
+  
+    // if(this.props.navigation.state.props.retry){
+    //     // give a retry
+    // }
+
+   
 }
 
 componentWillUnmount() {
@@ -58,10 +76,19 @@ componentWillUnmount() {
 
         const {navigate} = this.props.navigation ;
 
+
+    // this.State.i  = this.state.i++ ; 
+    // console.warn(this.state.i);
+    // const j = "q" + this.state.i;
+    // this.State.CurrentSet = Data.j[this.state.i]; 
+       
+      
+
+
         return(
             <View>
      
-
+{/*
              <Modal
           animationType={"slide"}
           transparent={false}
@@ -69,7 +96,18 @@ componentWillUnmount() {
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
            <UserPrompt instuctionDone = {this.instuctionDone}/>
-          </Modal>
+          </Modal>*/}
+
+
+
+
+                <Modal
+                  visible={this.state.resultVisibility}  >
+                    <Result/>
+                </Modal>
+
+
+
                  <Text>{this.state.CurrentSet.que}</Text>
                  <Button title = {this.state.CurrentSet.A} onPress = {()=>this.check('A')}  />
                  <Button title = {this.state.CurrentSet.B} onPress = {()=>this.check('B')}  />
@@ -93,7 +131,11 @@ componentWillUnmount() {
             result = true;
         }
        
-
-        navigate('Result',{result})
+  
+        this.setState({resultVisibility:true});
+        setTimeout(()=> {
+            this.setState({resultVisibility:false});
+              }
+            ,2000)
     }
 }
