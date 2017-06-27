@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { StackNavigator   } from 'react-navigation';
 
-import Result from './Result';
+
 import Lifeline from './Lifeline';
 import Game from './Game';
 

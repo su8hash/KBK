@@ -21,49 +21,32 @@ constructor(){
     this.state = {
         a: 1,
         instructionVisible:true,
-        i: 0,
+        i: 1,
         CurrentSet: Data.q1[0],
         resultVisibility:false,
     };
 
+    this.updateCycle = null;
+
     this.instuctionDone = this.instuctionDone.bind(this);
-    // this.state.CurrentSet  = Data.q1[i]
 }
 
 componentWillMount(){
- // console.warn(Data.q1[0].que);
-  
 }
 
 
 
 componentWillUpdate(){
-  // console.warn(Data.q1[i]);
-    // this.setState({ i : this.state.i++ }); 
-    // console.warn(this.state.i);
-    // const j = "q" + this.state.i;
-    // this.setState({ CurrentSet : Data.j[this.state.i] }); 
 }
 
 componentDidMount(){
      BackHandler.addEventListener('backPress', () => {
         return true;
    });
-
-
-    // this.setState({ i : this.state.i++ }); 
-    // console.warn(this.state.i);
-    // const j = "q" + this.state.i;
-    // this.setState({ CurrentSet : Data.j[this.state.i] }); 
-  
-    // if(this.props.navigation.state.props.retry){
-    //     // give a retry
-    // }
-
-   
 }
 
 componentWillUnmount() {
+    this.updateCycle.clear()
     BackHandler.removeEventListener('backPress');
   }
 
@@ -75,16 +58,6 @@ componentWillUnmount() {
     render(){
 
         const {navigate} = this.props.navigation ;
-
-
-    // this.State.i  = this.state.i++ ; 
-    // console.warn(this.state.i);
-    // const j = "q" + this.state.i;
-    // this.State.CurrentSet = Data.j[this.state.i]; 
-       
-      
-
-
         return(
             <View>
      
@@ -99,9 +72,8 @@ componentWillUnmount() {
           </Modal>*/}
 
 
-
-
                 <Modal
+                 onRequestClose={() => {null}}
                   visible={this.state.resultVisibility}  >
                     <Result/>
                 </Modal>
@@ -123,19 +95,26 @@ componentWillUnmount() {
 
 
     check(value){
+        if(value){
         let result = false;
         if(value === this.state.CurrentSet.ans){
             //right answer give hime next answer
             // dont call setState as it will navigate back
-            this.state.i++;
             result = true;
         }
        
   
         this.setState({resultVisibility:true});
-        setTimeout(()=> {
-            this.setState({resultVisibility:false});
-              }
-            ,2000)
+        this.updateCycle = setTimeout(()=> {
+            let a = this.state.i + 1;
+            const j = "q" + a;
+            this.setState({resultVisibility:false,
+                           i : a ,
+                           CurrentSet :  Data[j][0]});
+                  
+                    }
+                           
+            ,1010);
+    }
     }
 }
