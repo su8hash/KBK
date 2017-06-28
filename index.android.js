@@ -11,7 +11,9 @@ import {
   Text,
   View,
   Button,
-  BackAndroid
+  BackAndroid,
+  TouchableHighlight,
+  AsyncStorage
 } from 'react-native';
 import { StackNavigator   } from 'react-navigation';
 
@@ -19,6 +21,7 @@ import { StackNavigator   } from 'react-navigation';
 import Lifeline from './Lifeline';Instructions
 import Instructions from './Instructions';
 import Game from './Game';
+import Win from './Win';
 import styles  from './styles'
 
 BackAndroid.addEventListener("hardwareBackPress", () => {
@@ -26,12 +29,36 @@ BackAndroid.addEventListener("hardwareBackPress", () => {
 });
 
 export default class KBK extends Component {
-  render() {
+          
+   constructor(){
+     super();
+     this.state = {sc:0};
+
+   }
+
+ componentDidMount(){
+     try {
+          const value = AsyncStorage.getItem('score',(err,value)=>{
+            console.warn(value);
+          
+          if (value  !== null){
+            // We have data!!
+            this.setState({ sc : parseInt(value)});
+            console.warn(value);
+          }},(err)=>console.warn(err));
+        } catch (error) {
+          // Error retrieving data
+            console.warn(error);
+        }
+
+   }
+
+   render() {
     const {navigate} = this.props.navigation ;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to React Native! {this.state.sc}
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.android.js
@@ -40,7 +67,13 @@ export default class KBK extends Component {
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
-        <Button title = "Go to Game" onPress = {()=>navigate('Instructions')}  style={styles.btn}/>
+        <TouchableHighlight onPress = {()=>navigate('Instructions')} >
+          <View style={styles.button}>
+               <Text   style={styles.buttonText}>
+                 Go to Game
+                 </Text>
+          </View>
+          </TouchableHighlight>
       </View>
     );
   }
@@ -53,6 +86,7 @@ const App = StackNavigator({
   Home : {screen:KBK},
   Game : {screen:Game},
   Instructions : {screen: Instructions},
+  Win : {screen: Win},
 },
  { 
     headerMode: 'none' 

@@ -23,11 +23,23 @@ export default styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-  btn:{
-    backgroundColor: 'blue',
-    height:70,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+  button:{
+    backgroundColor: '#33AAFF',
+    borderWidth:10,
+    borderRadius:20,
+    borderColor:'#33AAFF',
+    padding:5,
+    margin:5,
+  },
+   buttonText:{
+    fontSize: 15,
+    color:'#FFFFFF',
+  },
+
+   ansContainer:{
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignContent: 'space-between',
+    margin:10
   },
 });
