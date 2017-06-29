@@ -22,6 +22,7 @@ import Lifeline from './Lifeline';Instructions
 import Instructions from './Instructions';
 import Game from './Game';
 import Win from './Win';
+import Loose from './Loose';
 import styles  from './styles'
 
 BackAndroid.addEventListener("hardwareBackPress", () => {
@@ -39,12 +40,10 @@ export default class KBK extends Component {
  componentDidMount(){
      try {
           const value = AsyncStorage.getItem('score',(err,value)=>{
-            console.warn(value);
           
           if (value  !== null){
             // We have data!!
             this.setState({ sc : parseInt(value)});
-            console.warn(value);
           }},(err)=>console.warn(err));
         } catch (error) {
           // Error retrieving data
@@ -87,6 +86,7 @@ const App = StackNavigator({
   Game : {screen:Game},
   Instructions : {screen: Instructions},
   Win : {screen: Win},
+  Loose : {screen:Loose},
 },
  { 
     headerMode: 'none' 

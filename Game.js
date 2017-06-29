@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Result from './Result';
+import Loose from './Loose';
+
 import Data from './data.json'
 import styles  from './styles'
 
@@ -28,12 +30,16 @@ constructor(){
         CurrentSet: Data.q1[0],
         resultVisibility:false,
         result:false,
-        score:0
+        score:0,
+        looseCondition:null,
+        looseVisible:false
     };
 
     this.updateCycle = null;
 
     this.instuctionDone = this.instuctionDone.bind(this);
+    this.retry = this.retry.bind(this);
+    this.navigateTo = this.navigateTo.bind(this);
 }
 
 componentWillMount(){
@@ -60,11 +66,30 @@ componentWillUnmount() {
       this.setState({instructionVisible:false})
   }
 
+  retry(){
+   this.setState({looseVisible:false});
+  }
+
+  navigateTo(screenName){
+       this.setState({looseVisible:false});
+       this.saveScore();
+       this.props.navigation.navigate(screenName) 
+  }
+
     render(){
 
         const {navigate} = this.props.navigation ;
         return(
             <View style={styles.container}>
+                <Modal
+                  onRequestClose={() => {null}}
+                  visible={this.state.looseVisible} 
+                  animationType={"slide"}
+                  transparent={true}
+                  >
+                    <Loose retry={this.retry} navigateTo ={this.navigateTo}/>
+                </Modal> 
+               
                 <Modal
                   onRequestClose={() => {null}}
                   visible={this.state.resultVisibility} 
@@ -139,12 +164,10 @@ componentWillUnmount() {
                         AsyncStorage.setItem('score', totalScore.toString(),()=>console.warn('saved'),(err)=>console.warn(err));
                        
 
-                        console.warn(totalScore);
                          
                         } catch (error) {
                         // Error saving data
                         console.warn(error);
-                        console.warn("not able to store score");
                     }
   }  
 
@@ -159,12 +182,14 @@ componentWillUnmount() {
        
         this.setState({resultVisibility:true,result:res});
         this.updateCycle = setTimeout(()=> {
+           
+         if(this.state.result){
+
             if(this.state.i == 14){
                 //game has completed
             this.saveScore();
                     
             this.props.navigation.navigate('Win')
-
             }
              else{
             let a = this.state.i + 1;
@@ -176,6 +201,15 @@ componentWillUnmount() {
                            i : a ,
                            CurrentSet :  Data[j][0],
                            score: sc});}
+
+         }
+         else
+         {
+             // incorrrect answer
+              this.setState({resultVisibility:false,looseVisible:true});
+         }
+
+
                          },1010); 
        }
     }

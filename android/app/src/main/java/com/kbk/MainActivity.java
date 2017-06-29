@@ -1,6 +1,7 @@
 package com.kbk;
 
 import com.facebook.react.ReactActivity;
+import com.rctrevmob.RevMobPackage;
 
 public class MainActivity extends ReactActivity {
 
