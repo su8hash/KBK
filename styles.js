@@ -18,7 +18,7 @@ export default styles = StyleSheet.create({
     marginBottom: 5,
   },
    bigText: {
-    fontSize: 25,
+    fontSize: 20,
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
@@ -32,14 +32,11 @@ export default styles = StyleSheet.create({
     margin:5,
   },
    buttonText:{
-    fontSize: 15,
+    fontSize: 12,
     color:'#FFFFFF',
   },
 
    ansContainer:{
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignContent: 'space-between',
-    margin:10
+    margin:1
   },
 });

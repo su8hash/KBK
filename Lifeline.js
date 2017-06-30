@@ -2,19 +2,22 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 
 export default class Lifeline extends Component{
     render(){
 
-        const {navigate} = this.props.navigation ;
         return(
-            <View>
+            <View style={styles.container}>
                 <Text>
                     Lifeline
                 </Text>
+                 <Button title = "50/50" onPress = {()=>this.props.chooseLifeline('5')} style={styles.btn} />
+                 <Button title = "Flip" onPress = {()=>this.props.chooseLifeline('F')} style={styles.btn} />
+                 <Button title = "Double Dip" onPress = {()=>this.props.chooseLifeline('D')} style={styles.btn} />
+                 <Button title = "Cancel" onPress = {()=>this.props.chooseLifeline()} style={styles.btn} />
             </View>
         )
     }
