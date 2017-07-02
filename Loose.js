@@ -20,6 +20,7 @@ export  default class Loose extends Component{
         NativeAppEventEmitter.addListener(
             'onRevmobRewardedVideoComplete',
                 (e)=>{
+                    console.warn("add was completed");
                     this.props.retry();
                 }
         );
@@ -34,6 +35,9 @@ export  default class Loose extends Component{
         NativeAppEventEmitter.removeAllListeners()
     }
 
+   showRewardedVideo(){
+        RevMobManager.showRewardedVideo(); 
+   }
 
     render(){
 
@@ -42,7 +46,7 @@ export  default class Loose extends Component{
                 <Text style={styles.bigText}>
                     you have LOSS .Play Again to increase score
                 </Text>
-                 <Button title = "Watch Video to get anotherc chance" onPress = {()=> RevMobManager.showRewardedVideo()} style={styles.btn} />
+                 <Button title = "Watch Video to get another chance" onPress = {()=> this.showRewardedVideo()} style={styles.btn} />
                  <Button title = "Go to Home" onPress = {()=>this.props.navigateTo('Home')} style={styles.btn} />
                  <Button title = "Play Again" onPress = {()=>this.props.navigateTo('Game')} style={styles.btn} />
             </View>

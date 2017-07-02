@@ -10,12 +10,16 @@ import {
   AsyncStorage
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+
+
 import Result from './Result';
 import Loose from './Loose';
 import Lifeline from './Lifeline';
 
 import Data from './data.json'
 import styles  from './styles'
+import firebaseApp  from './fireBaseHelper'
+
 
 
 
@@ -43,12 +47,16 @@ constructor(){
         doubleDip : false,
     };
 
-    this.updateCycle = null;
+    this.updateCycle = [];
+
+
+   this.itemsRef = firebaseApp;
 
     this.instuctionDone = this.instuctionDone.bind(this);
     this.retry = this.retry.bind(this);
     this.navigateTo = this.navigateTo.bind(this);
     this.chooseLifeline = this.chooseLifeline.bind(this);
+    this.top5Scores = [];
 }
 
 componentWillMount(){
@@ -63,7 +71,19 @@ componentDidMount(){
      BackHandler.addEventListener('backPress', () => {
         return true;
    });
+    this.getHighScores(this.itemsRef);
 }
+
+  getHighScores(itemRef){
+       this.itemsRef.once('value').then((snap)=>{
+       let items = [];
+       snap.forEach(function(element) {
+          items.push({name:element.val().name,score: element.val().score,key:element.val().key});
+       });
+
+       this.top5Scores=items;
+     });
+   }
 
 componentWillUnmount() {
     this.updateCycle.clear()
@@ -173,8 +193,7 @@ getAnsD(){
 getNextQue(){
          let a = this.state.i + 1;
             const j = "q" + a;
-            this.setState({resultVisibility:false,
-                           i : a ,
+            this.setState({i : a ,
                            CurrentSet :  Data[j][0],
                            showA:true,
                            showB:true,
@@ -199,7 +218,7 @@ getNextQue(){
                   </Modal> 
                 
                 <Modal
-                  onRequestClose={() => {null}}
+                  onRequestClose={() => {this.setState({looseVisible:false})}}
                   visible={this.state.looseVisible} 
                   animationType={"slide"}
                   transparent={true}
@@ -253,7 +272,7 @@ getNextQue(){
                             totalScore = totalScore + parseInt(value); 
                          });
 
-                        AsyncStorage.setItem('score', totalScore.toString(),()=>console.warn('saved'),(err)=>console.warn(err));
+                        AsyncStorage.setItem('score', totalScore.toString(),null,(err)=>console.warn(err));
                        
 
                          
@@ -287,6 +306,10 @@ getNextQue(){
 
 
         if(value === this.state.CurrentSet.ans){
+              let sc = this.state.score;
+            if(sc === 0) sc = 50
+            else sc = sc * 2;
+            this.setState({score:sc});
             res = true;
         }
         else if(this.state.doubleDip){
@@ -296,26 +319,16 @@ getNextQue(){
        
        
         this.setState({resultVisibility:true,result:res});
-        this.updateCycle = setTimeout(()=> {
+         this.updateCycle.forEach((x)=>clearTimeout(x));
+        this.updateCycle.push(setTimeout(()=> {
            
          if(this.state.result){
-            if(this.state.i == 14){
-                //game has completed
+            this.setState({resultVisibility:false});
+            if(this.state.i == 2){
             this.saveScore();
-                    
-            this.props.navigation.navigate('Win')
-            }
-             else{
-           
-            let sc = this.state.score;
-            if(sc === 0) sc = 50
-            else sc = sc * 2;
-            this.setState({score:sc});
-            
-            this.getNextQue();
-       
-                    }
-
+            this.props.navigation.navigate('Win',{top5Scores: this.top5Scores,score:this.state.score})
+              }
+            else  this.getNextQue();
          }
          else
          {
@@ -323,8 +336,8 @@ getNextQue(){
               this.setState({resultVisibility:false,looseVisible:true});
          }
 
-
-                         },1010); 
+           this.updateCycle.forEach((x)=>clearTimeout(x));
+          },1000))
        }
     }
 }
