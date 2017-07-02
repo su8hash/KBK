@@ -190,11 +190,11 @@ getAnsD(){
 }
 
 
-getNextQue(){
+getNextQue(changeIndex){
          let a = this.state.i + 1;
             const j = "q" + a;
-            this.setState({i : a ,
-                           CurrentSet :  Data[j][0],
+            if(changeIndex)this.setState({i:a});
+            this.setState({CurrentSet :  Data[j][0],
                            showA:true,
                            showB:true,
                            showC:true,
