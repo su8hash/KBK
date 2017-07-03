@@ -94,7 +94,7 @@ export default class KBK extends Component {
    render() {
     const {navigate} = this.props.navigation ;
     return (
-      <View style={styles.container}>
+      <View style={styles.containerSpace}>
         {this.getHighScoreView()}
         <View>
         <Text style={styles.welcome}>
