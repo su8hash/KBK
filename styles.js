@@ -3,9 +3,10 @@ import {  StyleSheet } from 'react-native';
 export default styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    flexDirection:'row'
   },
   welcome: {
     fontSize: 20,
@@ -39,4 +40,20 @@ export default styles = StyleSheet.create({
    ansContainer:{
     margin:1
   },
+  
+    list: {
+        flex: 1,
+        flexDirection: 'row'
+    },
+    listContent: {
+        flex: 1,
+        flexDirection: 'column'
+    },
+    row: {
+        flex: 1,
+        padding: 42,
+        borderWidth: 1,
+        fontSize: 24,
+        borderColor: '#DDDDDD'
+    },
 });

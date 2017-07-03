@@ -79,10 +79,13 @@ export default class KBK extends Component {
 
    getHighScoreView(){
      if(this.state.top5Scores){
-     return <FlatList
+     return <View>
+         <Text style={styles.bigText}>Top 5 Scores</Text>
+         <FlatList style={styles.list}
            data= {this.state.top5Scores}
-           renderItem={({item}) => <Text> {item.name+ " : " + item.score}</Text>}
+           renderItem={({item}) => <Text > {item.name+ " : " + item.score}</Text>}
         />
+        </View>
      }
      else
      return <Text>Loading High Scores</Text>;   
@@ -93,6 +96,7 @@ export default class KBK extends Component {
     return (
       <View style={styles.container}>
         {this.getHighScoreView()}
+        <View>
         <Text style={styles.welcome}>
           Welcome to React Native! {this.state.sc}
         </Text>
@@ -110,6 +114,7 @@ export default class KBK extends Component {
                  </Text>
           </View>
           </TouchableHighlight>
+          </View>
       </View>
     );
   }
