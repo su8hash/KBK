@@ -222,7 +222,7 @@ getNextQue(changeIndex){
 
         const {navigate} = this.props.navigation ;
         return(
-            <View >
+            <View style={styles.containerGame}>
 
                   <Modal
                   onRequestClose={() => {null}}
@@ -257,16 +257,22 @@ getNextQue(changeIndex){
                  <Text style={styles.bigText}>{"Score : " + this.state.score}</Text>
                  <Text style={styles.bigText}>{"Q" + this.state.queNo + ". " + this.state.CurrentSet.que}</Text>
                  
-                <View> 
-                {this.getAnsA()}
+                <View style={styles.containerSpace}> 
+                 <View style={styles.containerGame}> 
+                     {this.getAnsA()}
                 {this.getAnsB()}
+                </View>
+                  <View style={styles.containerGameRight}> 
                 {this.getAnsC()}
                 {this.getAnsD()}
+                </View>
+                
                 </View> 
                 
-               
+                  <View style={styles.containerSpace}> 
                  {this.getLifeLinebutton()}
                  <Button title = "Go to Home" onPress = {()=>navigate('Home')} style={styles.btn} />
+                     </View>
             </View>
         )
     }

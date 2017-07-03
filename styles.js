@@ -10,9 +10,23 @@ export default styles = StyleSheet.create({
   containerSpace: {
     flex: 1,
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: '#F5FCFF',
     flexDirection:'row'
+  },
+   containerGame: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    backgroundColor: '#F5FCFF',
+    flexDirection:'column'
+  },
+  containerGameRight: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    backgroundColor: '#F5FCFF',
+    flexDirection:'column'
   },
   welcome: {
     fontSize: 20,

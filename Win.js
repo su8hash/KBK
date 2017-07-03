@@ -4,7 +4,8 @@ import {
   Text,
   View,
   Button,
-  TextInput 
+  TextInput,
+  BackHandler
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import styles  from './styles'
@@ -18,6 +19,17 @@ export  default class Win extends Component{
        const prop = this.props.navigation.state.params;
        this.state = { text: 'P1' ,score : prop.score,  top5Scores : prop.top5Scores };
    }
+
+   componentDidMount(){
+     BackHandler.addEventListener('backPress', () => {
+        return true;
+   });
+}
+
+componentWillUnmount() {
+    this.updateCycle.clear()
+    BackHandler.removeEventListener('backPress');
+  }
 
     promptForUserName(){
       

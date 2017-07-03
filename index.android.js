@@ -11,7 +11,7 @@ import {
   Text,
   View,
   Button,
-  BackAndroid,
+  BackHandler,
   TouchableHighlight,
   AsyncStorage,
   FlatList
@@ -25,6 +25,7 @@ import Instructions from './Instructions';
 import Game from './Game';
 import Win from './Win';
 import Loose from './Loose';
+import Pause from './Pause';
 import styles  from './styles'
 
 import firebaseApp  from './fireBaseHelper'
@@ -33,8 +34,8 @@ console.ignoredYellowBox = [
     'Setting a timer'
 ]
 
-BackAndroid.addEventListener("hardwareBackPress", () => {
-  return true;
+BackHandler.addEventListener("backPress", () => {
+  BackHandler.exitApp()
 });
 
 export default class KBK extends Component {
@@ -110,7 +111,14 @@ export default class KBK extends Component {
         <TouchableHighlight onPress = {()=>navigate('Instructions')} >
           <View style={styles.button}>
                <Text   style={styles.buttonText}>
-                 Go to Game
+                  Go to Game
+                 </Text>
+          </View>
+          </TouchableHighlight>
+         <TouchableHighlight onPress = {()=>navigate('Instructions')} >
+          <View style={styles.button}>
+               <Text   style={styles.buttonText}>
+                   Exit
                  </Text>
           </View>
           </TouchableHighlight>
@@ -129,6 +137,7 @@ const App = StackNavigator({
   Instructions : {screen: Instructions},
   Win : {screen: Win},
   Loose : {screen:Loose},
+  Pause : {screen:Pause}
 },
  { 
     headerMode: 'none' 
