@@ -17,7 +17,7 @@ import {
   FlatList
 } from 'react-native';
 import { StackNavigator   } from 'react-navigation';
-
+import OneSignal from 'react-native-onesignal'; 
 
 
 import Lifeline from './Lifeline';Instructions
@@ -29,7 +29,9 @@ import styles  from './styles'
 
 import firebaseApp  from './fireBaseHelper'
 
-
+console.ignoredYellowBox = [
+    'Setting a timer'
+]
 
 BackAndroid.addEventListener("hardwareBackPress", () => {
   return true;
@@ -44,6 +46,11 @@ export default class KBK extends Component {
      this.top5Scores = null;
   
    }
+
+
+    componentWillMount() {
+        OneSignal.inFocusDisplaying(2);
+    }
 
  componentDidMount(){
      try {

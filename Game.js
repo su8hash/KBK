@@ -45,26 +45,21 @@ constructor(){
         showC:true,
         showD:true,
         doubleDip : false,
+        availableLifeline : ['5','D','F'],
+        lifelineInProgress:false,
+        queNo:1
     };
 
     this.updateCycle = [];
 
 
-   this.itemsRef = firebaseApp;
+    this.itemsRef = firebaseApp;
 
     this.instuctionDone = this.instuctionDone.bind(this);
     this.retry = this.retry.bind(this);
     this.navigateTo = this.navigateTo.bind(this);
     this.chooseLifeline = this.chooseLifeline.bind(this);
     this.top5Scores = [];
-}
-
-componentWillMount(){
-}
-
-
-
-componentWillUpdate(){
 }
 
 componentDidMount(){
@@ -108,8 +103,15 @@ componentWillUnmount() {
   chooseLifeline(lifeline){
   this.setState({lifelineVisible:false});
   if(lifeline){
-      this.setState({activeLifeline : lifeline});
 
+      this.setState({activeLifeline : lifeline,lifelineInProgress:true});
+      var tempArray = this.state.availableLifeline;
+      var index = tempArray.indexOf(lifeline);
+      if (index > -1) {
+        tempArray.splice(index, 1);
+       }
+
+      this.setState({availableLifeline:tempArray});
       switch(lifeline){
           case '5':
           const candidateToRemoval = ['A','B','C','D'];
@@ -189,11 +191,25 @@ getAnsD(){
                 return null;
 }
 
+getLifeLinebutton(){
+    if(!this.state.lifelineInProgress)
+       return <Button title = "Use a Lifeline" onPress = {()=>this.setState({lifelineVisible:true})}   style={styles.btn} />
+    else  switch(this.state.activeLifeline){
+          case '5':
+          return <Text>50/50 in progress</Text>
+          case 'F':
+             return <Text>Flip in progress</Text>
+          case 'D':
+            return <Text>Double Dip in progress</Text>
+      }
+}
+
 
 getNextQue(changeIndex){
-         let a = this.state.i + 1;
+            if(changeIndex)this.setState({queNo:this.state.queNo + 1});
+            let a = this.state.i + 1;
             const j = "q" + a;
-            if(changeIndex)this.setState({i:a});
+            this.setState({i:a});
             this.setState({CurrentSet :  Data[j][0],
                            showA:true,
                            showB:true,
@@ -214,7 +230,7 @@ getNextQue(changeIndex){
                   animationType={"slide"}
                   transparent={true}
                   >
-                    <Lifeline chooseLifeline={this.chooseLifeline}/>
+                    <Lifeline chooseLifeline={this.chooseLifeline} availableLifeline ={this.state.availableLifeline}/>
                   </Modal> 
                 
                 <Modal
@@ -239,7 +255,7 @@ getNextQue(changeIndex){
 
 
                  <Text style={styles.bigText}>{"Score : " + this.state.score}</Text>
-                 <Text style={styles.bigText}>{"Q" + this.state.i + ". " + this.state.CurrentSet.que}</Text>
+                 <Text style={styles.bigText}>{"Q" + this.state.queNo + ". " + this.state.CurrentSet.que}</Text>
                  
                 <View> 
                 {this.getAnsA()}
@@ -248,12 +264,8 @@ getNextQue(changeIndex){
                 {this.getAnsD()}
                 </View> 
                 
-
-                 {/*<Button  title = {"A. " + this.state.CurrentSet.A} onPress = {()=>this.check('A')} style={styles.btn} />
-                 <Button  title = {"B. " + this.state.CurrentSet.B} onPress = {()=>this.check('B')} style={styles.btn} />
-                 <Button  title = {"C. " + this.state.CurrentSet.C} onPress = {()=>this.check('C')} style={styles.btn} />
-                 <Button  title = {"D. " + this.state.CurrentSet.D} onPress = {()=>this.check('D')} style={styles.btn} />*/}
-                 <Button title = "Use a Lifeline" onPress = {()=>this.setState({lifelineVisible:true})}   style={styles.btn} />
+               
+                 {this.getLifeLinebutton()}
                  <Button title = "Go to Home" onPress = {()=>navigate('Home')} style={styles.btn} />
             </View>
         )
@@ -317,18 +329,18 @@ getNextQue(changeIndex){
             return;
         }
        
-       
-        this.setState({resultVisibility:true,result:res});
-         this.updateCycle.forEach((x)=>clearTimeout(x));
+
+        this.setState({resultVisibility:true,result:res,lifelineInProgress:false});
+        this.updateCycle.forEach((x)=>clearTimeout(x));
         this.updateCycle.push(setTimeout(()=> {
            
          if(this.state.result){
             this.setState({resultVisibility:false});
-            if(this.state.i == 2){
+            if(this.state.queNo == 14){
             this.saveScore();
             this.props.navigation.navigate('Win',{top5Scores: this.top5Scores,score:this.state.score})
               }
-            else  this.getNextQue();
+            else  this.getNextQue(true);
          }
          else
          {
@@ -337,7 +349,7 @@ getNextQue(changeIndex){
          }
 
            this.updateCycle.forEach((x)=>clearTimeout(x));
-          },1000))
+          },500))
        }
     }
 }
