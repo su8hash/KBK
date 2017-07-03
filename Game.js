@@ -97,6 +97,7 @@ componentWillUnmount() {
   navigateTo(screenName){
        this.setState({looseVisible:false});
        this.saveScore();
+       console.warn(this.state.looseVisible)
        this.props.navigation.navigate(screenName) 
   }
 
@@ -269,10 +270,10 @@ getNextQue(changeIndex){
                 
                 </View> 
                 
-                  <View style={styles.containerSpace}> 
+               <View style={styles.containerSpace}> 
                  {this.getLifeLinebutton()}
                  <Button title = "Go to Home" onPress = {()=>navigate('Home')} style={styles.btn} />
-                     </View>
+              </View>
             </View>
         )
     }
