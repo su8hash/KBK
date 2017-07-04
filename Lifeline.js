@@ -10,11 +10,16 @@ import { NativeAppEventEmitter } from 'react-native';
 
 export default class Lifeline extends Component{
 
+constructor(){
+    super();
+    this.listners =[];
+}
+
 componentWillMount () {
-        NativeAppEventEmitter.addListener(
+         this.listners.push(NativeAppEventEmitter.addListener(
             'onRevmobRewardedVideoDidLoad',
                 (e)=>{  RevMobManager.showRewardedVideo() }
-        );
+        ));
   this.listners.push(NativeAppEventEmitter.addListener(
             'onRevmobRewardedVideoDidComplete',
                 (e)=>{

@@ -68,11 +68,8 @@ constructor(){
 }
 
 componentDidMount(){
-       console.warn("C1")
-
       BackHandler.addEventListener('backPress', () => {
        this.setState({pauseVisible:!this.state.pauseVisible});
-       console.warn("back handler is registerred")
         return true;
    });
     this.getHighScores(this.itemsRef);
@@ -101,11 +98,8 @@ componentDidMount(){
    }
 
 componentWillUnmount() {
-       console.warn("D1")
-
     this.updateCycle.clear()
-    // BackHandler.removeEventListener('backPress');
-    //    console.warn("back handler is unregisterred")
+    BackHandler.removeEventListener('backPress');
 
     this.listners.forEach((x)=>x.remove());    
   }
@@ -255,7 +249,7 @@ getNextQue(changeIndex){
         return(
             <View style={styles.containerGame}>
                   <Modal
-                  onRequestClose={() => {null}}
+                  onRequestClose={() => {this.setState({pauseVisible:!this.state.pauseVisible})}}
                   visible={this.state.pauseVisible} 
                   animationType={"slide"}
                   transparent={true}
@@ -264,7 +258,7 @@ getNextQue(changeIndex){
                   </Modal>
 
                   <Modal
-                  onRequestClose={() => {null}}
+                  onRequestClose={() => {this.chooseLifeline()}}
                   visible={this.state.lifelineVisible} 
                   animationType={"slide"}
                   transparent={true}

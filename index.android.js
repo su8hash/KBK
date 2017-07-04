@@ -136,8 +136,6 @@ const App = StackNavigator({
   Game : {screen:Game},
   Instructions : {screen: Instructions},
   Win : {screen: Win},
-  // Loose : {screen:Loose},
-  // Pause : {screen:Pause}
 },
  { 
     headerMode: 'none' 
