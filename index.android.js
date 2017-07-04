@@ -115,7 +115,7 @@ export default class KBK extends Component {
                  </Text>
           </View>
           </TouchableHighlight>
-         <TouchableHighlight onPress = {()=>navigate('Instructions')} >
+         <TouchableHighlight onPress = {()=>BackHandler.exitApp()} >
           <View style={styles.button}>
                <Text   style={styles.buttonText}>
                    Exit
@@ -136,8 +136,8 @@ const App = StackNavigator({
   Game : {screen:Game},
   Instructions : {screen: Instructions},
   Win : {screen: Win},
-  Loose : {screen:Loose},
-  Pause : {screen:Pause}
+  // Loose : {screen:Loose},
+  // Pause : {screen:Pause}
 },
  { 
     headerMode: 'none' 

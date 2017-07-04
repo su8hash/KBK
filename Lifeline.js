@@ -5,8 +5,33 @@ import {
   View,
   Button
 } from 'react-native';
+import { RevMobManager } from 'react-native-revmob';
+import { NativeAppEventEmitter } from 'react-native';   
 
 export default class Lifeline extends Component{
+
+componentWillMount () {
+        NativeAppEventEmitter.addListener(
+            'onRevmobRewardedVideoDidLoad',
+                (e)=>{  RevMobManager.showRewardedVideo() }
+        );
+  this.listners.push(NativeAppEventEmitter.addListener(
+            'onRevmobRewardedVideoDidComplete',
+                (e)=>{
+                     // When Running Out of Lifeline Show a video and give option to revive any one helpline
+                }
+        ));
+    }
+   
+    componentWillUnmount () {
+        this.listners.forEach((x)=>x.remove())
+    }
+
+   showRewardedVideo(){
+        this.setState({loading:false})
+        RevMobManager.loadRewardedVideo();
+   }
+
     render(){
         return(
             <View style={styles.container}>
@@ -45,6 +70,7 @@ export default class Lifeline extends Component{
         if(this.props.availableLifeline.length == 0)
           return     <View>
                      <Text>You have used all Lifelines</Text>
+                     <Button title = "Watch Video to revive any One Lifeline" onPress = {()=> this.showRewardedVideo()} style={styles.btn} />
                      <Button title = "Cancel" onPress = {()=>this.props.chooseLifeline()} style={styles.btn} />
                </View>
         else 

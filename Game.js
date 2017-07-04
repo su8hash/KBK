@@ -10,11 +10,14 @@ import {
   AsyncStorage
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { RevMobManager } from 'react-native-revmob';
+import { NativeAppEventEmitter } from 'react-native';
 
 
 import Result from './Result';
 import Loose from './Loose';
 import Lifeline from './Lifeline';
+import Pause from './Pause';
 
 import Data from './data.json'
 import styles  from './styles'
@@ -47,26 +50,43 @@ constructor(){
         doubleDip : false,
         availableLifeline : ['5','D','F'],
         lifelineInProgress:false,
-        queNo:1
+        queNo:1,
+        pauseVisible:false
     };
 
     this.updateCycle = [];
-
-
+    this.listners = [];
     this.itemsRef = firebaseApp;
+    this.top5Scores = [];
 
     this.instuctionDone = this.instuctionDone.bind(this);
     this.retry = this.retry.bind(this);
     this.navigateTo = this.navigateTo.bind(this);
     this.chooseLifeline = this.chooseLifeline.bind(this);
-    this.top5Scores = [];
+    this.resume = this.resume.bind(this);
+   
 }
 
 componentDidMount(){
-     BackHandler.addEventListener('backPress', () => {
+       console.warn("C1")
+
+      BackHandler.addEventListener('backPress', () => {
+       this.setState({pauseVisible:!this.state.pauseVisible});
+       console.warn("back handler is registerred")
         return true;
    });
     this.getHighScores(this.itemsRef);
+     RevMobManager.startSession("5942503155bc0f38cb700ae7", function revMobStartSessionCb(err){
+            if(!err) RevMobManager.loadBanner(); // Load rewarded video if session starts successfully.
+        });
+    this.listners.push( NativeAppEventEmitter.addListener('onRevmobBannerDidReceive', () => {
+      RevMobManager.showBanner(); // Show banner if it's loaded
+    }));
+
+     this.listners.push(  NativeAppEventEmitter.addListener(
+            'onRevmobFullscreenDidReceive',
+                (e)=>{ RevMobManager.showPreLoadedFullscreen(); }
+        ));
 }
 
   getHighScores(itemRef){
@@ -81,8 +101,13 @@ componentDidMount(){
    }
 
 componentWillUnmount() {
+       console.warn("D1")
+
     this.updateCycle.clear()
-    BackHandler.removeEventListener('backPress');
+    // BackHandler.removeEventListener('backPress');
+    //    console.warn("back handler is unregisterred")
+
+    this.listners.forEach((x)=>x.remove());    
   }
 
 
@@ -91,6 +116,7 @@ componentWillUnmount() {
   }
 
   retry(){
+    console.warn("retrying")
    this.setState({looseVisible:false});
   }
 
@@ -99,6 +125,10 @@ componentWillUnmount() {
        this.saveScore();
        console.warn(this.state.looseVisible)
        this.props.navigation.navigate(screenName) 
+  }
+
+  resume(){
+    this.setState({pauseVisible:false});
   }
 
   chooseLifeline(lifeline){
@@ -224,6 +254,14 @@ getNextQue(changeIndex){
         const {navigate} = this.props.navigation ;
         return(
             <View style={styles.containerGame}>
+                  <Modal
+                  onRequestClose={() => {null}}
+                  visible={this.state.pauseVisible} 
+                  animationType={"slide"}
+                  transparent={true}
+                  >
+                  <Pause resume={this.resume} navigateTo ={this.navigateTo}/>
+                  </Modal>
 
                   <Modal
                   onRequestClose={() => {null}}
@@ -341,6 +379,9 @@ getNextQue(changeIndex){
         this.updateCycle.forEach((x)=>clearTimeout(x));
         this.updateCycle.push(setTimeout(()=> {
            
+        if(this.state.queNo % 6 == 0)   
+         RevMobManager.loadFullscreen();
+
          if(this.state.result){
             this.setState({resultVisibility:false});
             if(this.state.queNo == 14){
