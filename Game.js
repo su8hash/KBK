@@ -110,14 +110,12 @@ componentWillUnmount() {
   }
 
   retry(){
-    console.warn("retrying")
    this.setState({looseVisible:false});
   }
 
   navigateTo(screenName){
        this.setState({looseVisible:false});
        this.saveScore();
-       console.warn(this.state.looseVisible)
        this.props.navigation.navigate(screenName) 
   }
 
@@ -324,9 +322,6 @@ getNextQue(changeIndex){
                          });
 
                         AsyncStorage.setItem('score', totalScore.toString(),null,(err)=>console.warn(err));
-                       
-
-                         
                         } catch (error) {
                         // Error saving data
                         console.warn(error);

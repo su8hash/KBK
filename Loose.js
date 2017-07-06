@@ -16,13 +16,14 @@ export  default class Loose extends Component{
      super();
      this.listners = [];
      this.state = {loading:false}
+     this.fetchingAdd =false;
  }
 
  
  componentWillMount () {
         NativeAppEventEmitter.addListener(
             'onRevmobRewardedVideoDidLoad',
-                (e)=>{  RevMobManager.showRewardedVideo() }
+                (e)=>{  RevMobManager.showRewardedVideo(); this.fetchingAdd = true }
         );
   this.listners.push(NativeAppEventEmitter.addListener(
             'onRevmobRewardedVideoDidComplete',
@@ -43,12 +44,15 @@ export  default class Loose extends Component{
     }
 
    showRewardedVideo(){
-        this.setState({loading:false})
-        RevMobManager.loadRewardedVideo();
+       if(!this.fetchingAdd)
+        {
+            this.setState({loading:false})
+            RevMobManager.loadRewardedVideo();
+        }
    }
 
    getRetryWithAdd(){
-       if(this.state.loading)
+       if(this.state.loading || this.fetchingAdd)
        return <Text>Loading .... </Text>
        else return <Button title = "Watch Video to get another chance" onPress = {()=> this.showRewardedVideo()} style={styles.btn} />
    }
