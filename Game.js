@@ -12,6 +12,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { RevMobManager } from 'react-native-revmob';
 import { NativeAppEventEmitter } from 'react-native';
+import Sound from 'react-native-sound'
 
 
 import Result from './Result';
@@ -51,13 +52,15 @@ constructor(){
         availableLifeline : ['5','D','F'],
         lifelineInProgress:false,
         queNo:1,
-        pauseVisible:false
+        pauseVisible:false,
     };
 
     this.updateCycle = [];
     this.listners = [];
     this.itemsRef = firebaseApp;
     this.top5Scores = [];
+    this.whoosh = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
+    
 
     this.instuctionDone = this.instuctionDone.bind(this);
     this.retry = this.retry.bind(this);
@@ -330,6 +333,7 @@ getNextQue(changeIndex){
 
    
     check(value){
+      this.whoosh.play();
         if(value){
         let res = false;
 

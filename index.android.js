@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import { StackNavigator   } from 'react-navigation';
 import OneSignal from 'react-native-onesignal'; 
-
+import Sound from 'react-native-sound'
 
 import Lifeline from './Lifeline';Instructions
 import Instructions from './Instructions';
@@ -42,11 +42,21 @@ export default class KBK extends Component {
           
    constructor(){
      super();
-     this.state = {sc:0};
+     this.state = {sc:0,mute:false};
      this.itemsRef = firebaseApp;
      this.top5Scores = null;
-  
+     this.whoosh = new Sound('main_music.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.warn('failed to load the sound', error);
+    return;
+     } 
+  // loaded successfully
+  console.warn("loaded");
+     this.whoosh.setNumberOfLoops(-1);
+    this.whoosh.play();
+    });
    }
+
 
 
     componentWillMount() {
@@ -64,6 +74,9 @@ export default class KBK extends Component {
         }
 
     this.getHighScores(this.itemsRef);
+    if(this.state.mute){
+      // this.whoosh.setVolume(0);
+    }
    }
 
    getHighScores(itemRef){
@@ -115,7 +128,7 @@ export default class KBK extends Component {
                  </Text>
           </View>
           </TouchableHighlight>
-         <TouchableHighlight onPress = {()=>BackHandler.exitApp()} >
+         <TouchableHighlight onPress = {()=>navigate('Instructions')} >
           <View style={styles.button}>
                <Text   style={styles.buttonText}>
                    Exit
@@ -136,6 +149,8 @@ const App = StackNavigator({
   Game : {screen:Game},
   Instructions : {screen: Instructions},
   Win : {screen: Win},
+  Loose : {screen:Loose},
+  Pause : {screen:Pause}
 },
  { 
     headerMode: 'none' 
