@@ -7,7 +7,8 @@ import {
   Modal,
   Button,
   TouchableHighlight,
-  AsyncStorage
+  AsyncStorage,
+  Image
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { RevMobManager } from 'react-native-revmob';
@@ -19,6 +20,8 @@ import Result from './Result';
 import Loose from './Loose';
 import Lifeline from './Lifeline';
 import Pause from './Pause';
+import score from './score.png';
+import home from './5050.png';
 
 import Data from './data.json'
 import styles  from './styles'
@@ -53,24 +56,34 @@ constructor(){
         lifelineInProgress:false,
         queNo:1,
         pauseVisible:false,
+        buttonSound:null,
+        clapSound:null,
+        awwSound:null,
     };
 
     this.updateCycle = [];
     this.listners = [];
     this.itemsRef = firebaseApp;
     this.top5Scores = [];
-    this.whoosh = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
-    
+    this.state.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
 
     this.instuctionDone = this.instuctionDone.bind(this);
     this.retry = this.retry.bind(this);
     this.navigateTo = this.navigateTo.bind(this);
     this.chooseLifeline = this.chooseLifeline.bind(this);
     this.resume = this.resume.bind(this);
-   
+    this.buttonClicked = this.buttonClicked.bind(this);
 }
 
+   buttonClicked(action){
+         if(this.state.buttonSound) this.state.buttonSound.play();
+    action();
+  }
+
 componentDidMount(){
+     this.state.clapSound = new Sound('win_clap.mp3', Sound.MAIN_BUNDLE);
+     this.state.awwSound = new Sound('aww_loose.mp3', Sound.MAIN_BUNDLE);
+     
       BackHandler.addEventListener('backPress', () => {
        this.setState({pauseVisible:!this.state.pauseVisible});
         return true;
@@ -117,6 +130,7 @@ componentWillUnmount() {
   }
 
   navigateTo(screenName){
+     if(this.state.buttonSound)this.state.buttonSound.play();
        this.setState({looseVisible:false});
        this.saveScore();
        this.props.navigation.navigate(screenName) 
@@ -163,7 +177,7 @@ componentWillUnmount() {
 getAnsA(){
      if(this.state.showA)
             return (
-              <TouchableHighlight onPress = {()=>this.check('A')}   >
+              <TouchableHighlight onPress = {()=>this.check('A')}  style={styles.buttonStyle}   >
                       <View style={styles.button}>
                             <Text  style={styles.buttonText}>
                                 {"A. " + this.state.CurrentSet.A} 
@@ -178,7 +192,7 @@ getAnsA(){
 getAnsB(){
      if(this.state.showB)
             return (
-              <TouchableHighlight onPress = {()=>this.check('B')}    >
+              <TouchableHighlight onPress = {()=>this.check('B')}    style={styles.buttonStyle} >
                       <View style={styles.button}>
                             <Text  style={styles.buttonText}>
                                 {"B. " + this.state.CurrentSet.B} 
@@ -192,7 +206,7 @@ getAnsB(){
 getAnsC(){
      if(this.state.showC)
             return (
-              <TouchableHighlight onPress = {()=>this.check('C')}    >
+              <TouchableHighlight onPress = {()=>this.check('C')}     style={styles.buttonStyle}>
                       <View style={styles.button}>
                             <Text  style={styles.buttonText}>
                                 {"C. " + this.state.CurrentSet.C} 
@@ -206,7 +220,7 @@ getAnsC(){
 getAnsD(){
      if(this.state.showD)
             return (
-              <TouchableHighlight onPress = {()=>this.check('D')}   >
+              <TouchableHighlight onPress = {()=>this.check('D')}    style={styles.buttonStyle}>
                       <View style={styles.button}>
                             <Text  style={styles.buttonText}>
                                 {"D. " + this.state.CurrentSet.D} 
@@ -219,7 +233,7 @@ getAnsD(){
 
 getLifeLinebutton(){
     if(!this.state.lifelineInProgress)
-       return <Button title = "Use a Lifeline" onPress = {()=>this.setState({lifelineVisible:true})}   style={styles.btn} />
+       return <Button title = "Use a Lifeline" onPress = {()=>this.buttonClicked(()=>this.setState({lifelineVisible:true}))}   style={styles.btn} />
     else  switch(this.state.activeLifeline){
           case '5':
           return <Text>50/50 in progress</Text>
@@ -285,13 +299,37 @@ getNextQue(changeIndex){
                     <Result result={this.state.result} score={this.state.score}/>
                 </Modal>
                 
-             
-
-
-                 <Text style={styles.bigText}>{"Score : " + this.state.score}</Text>
-                 <Text style={styles.bigText}>{"Q" + this.state.queNo + ". " + this.state.CurrentSet.que}</Text>
                  
-                <View style={styles.containerSpace}> 
+                 <View style={styles.topHeader}>
+
+                 <View style={styles.currentScore}>
+                  <Image source={URL=score} style={{height:25,width:75}} ></Image>
+                 <Text style={styles.bigText}>{this.state.score}</Text>
+                 </View>
+                
+                  <View style={styles.currentScore}> 
+                  {this.getLifeLinebutton()}
+
+                <TouchableHighlight onPress = {()=>this.buttonClicked(() => navigate('Home'))}>
+                      <View style={styles.imageText}>
+                            <Image source={URL=home} style={{height:45,width:75}} ></Image>
+                            <Text  style={styles.buttonText}>
+                                Home 
+                            </Text> 
+                      </View>
+                </TouchableHighlight>
+
+                  </View>
+
+                 </View>
+                
+
+
+                <View style={styles.questionConatainer}>
+                 <Text style={styles.bigText}>{"Q" + this.state.queNo + ". " + this.state.CurrentSet.que}</Text>
+                 </View>
+
+                <View style={styles.gameContainer}> 
                  <View style={styles.containerGame}> 
                      {this.getAnsA()}
                 {this.getAnsB()}
@@ -300,19 +338,10 @@ getNextQue(changeIndex){
                 {this.getAnsC()}
                 {this.getAnsD()}
                 </View>
-                
                 </View> 
-                
-               <View style={styles.containerSpace}> 
-                 {this.getLifeLinebutton()}
-                 <Button title = "Go to Home" onPress = {()=>navigate('Home')} style={styles.btn} />
-              </View>
             </View>
         )
     }
-
-
-
    
 
 
@@ -333,7 +362,7 @@ getNextQue(changeIndex){
 
    
     check(value){
-      this.whoosh.play();
+      this.state.buttonSound.play();
         if(value){
         let res = false;
 
@@ -356,6 +385,11 @@ getNextQue(changeIndex){
 
 
         if(value === this.state.CurrentSet.ans){
+
+    if(this.state.clapSound) 
+          {
+            this.state.clapSound.play();
+          }
               let sc = this.state.score;
             if(sc === 0) sc = 50
             else sc = sc * 2;
@@ -367,6 +401,10 @@ getNextQue(changeIndex){
             return;
         }
        
+       if(this.state.awwSound) 
+          {
+            this.state.awwSound.play();
+          }
 
         this.setState({resultVisibility:true,result:res,lifelineInProgress:false});
         this.updateCycle.forEach((x)=>clearTimeout(x));

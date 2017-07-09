@@ -43,13 +43,12 @@ export default class KBK extends Component {
           
    constructor(){
      super();
-     this.state = {sc:0,mute:false,whoosh:null};
+     this.state = {sc:0};
      this.itemsRef = firebaseApp;
      this.top5Scores = null;
      
   
    this.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
-   this._handleAppStateChange = this._handleAppStateChange.bind(this);
    this.buttonClicked = this.buttonClicked.bind(this);
   }
   
@@ -59,23 +58,8 @@ export default class KBK extends Component {
   }
 
 componentWillUnmount() {
-  AppState.removeEventListener('change', this._handleAppStateChange);
 }
 
-_handleAppStateChange(currentAppState) {
-  
-  if(currentAppState === 'background') {
-    if(this.state.whoosh){
-      console.warn( "sound");
-      this.state.whoosh.pause();
-      this.state.whoosh.stop();
-    }
-  } 
-  if(currentAppState === 'active') {
-      // this.state.whoosh.stop();
-       this.state.whoosh.play();
-  }
-}
 
     componentWillMount() {
         OneSignal.inFocusDisplaying(2);
@@ -92,26 +76,6 @@ _handleAppStateChange(currentAppState) {
         }
 
     this.getHighScores(this.itemsRef);
-
-     this.state.whoosh = new Sound('main_music.mp3', Sound.MAIN_BUNDLE, (error) => {
-      if (error) {
-        console.warn('failed to load the sound', error);
-    return;
-     } 
-  // loaded successfully
-     this.state.whoosh.setNumberOfLoops(-1);
-     this.state.whoosh.setVolume(0.2);
-    this.state.whoosh.play();
-  });
-
-    if(this.state.mute){
-
-      // this.whoosh.setVolume(0);
-       
-    
-    }
-        
-      AppState.addEventListener('change', this._handleAppStateChange);
    }
 
    getHighScores(itemRef){

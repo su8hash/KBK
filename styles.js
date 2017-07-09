@@ -8,7 +8,19 @@ export default styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     backgroundColor:'#bfc3c9'
+  },
 
+  ansContainer:{
+    flex:1,
+    padding:10,
+    flexDirection:'row',
+    justifyContent:'space-around',
+    backgroundColor:'#bfc3c9'
+  },
+
+  questionConatainer:{
+   padding:0,
+   justifyContent:'flex-start'
   },
 
    instructionContainer:{
@@ -40,7 +52,34 @@ export default styles = StyleSheet.create({
   textAlign: 'left',
   color: '#333333',
   fontWeight: 'bold',
+},
+currentScore:{
+alignItems:'flex-start',
+marginBottom:10,
+flexDirection:'row'
+},
+topHeader:{
+  flexDirection:'row',
+ justifyContent:'space-between'
+},
+
+imageText:{
+alignItems:'center',
+marginBottom:5,
+flexDirection:'column',
+},
+
+ questionText: {
+    fontSize: 10,
+    textAlign: 'center',
+    color: '#333333',
+    fontWeight  : 'bold',
   },
+
+
+
+
+
  
 
   container: {
@@ -81,7 +120,7 @@ export default styles = StyleSheet.create({
     marginBottom: 5,
   },
    bigText: {
-    fontSize: 20,
+    fontSize: 25,
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,

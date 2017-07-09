@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  TouchableHighlight
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Sound from 'react-native-sound'
@@ -21,7 +22,7 @@ export default class Instructions extends Component{
 
      buttonClicked(action){
          if(this.buttonSound) this.buttonSound.play();
-    action();
+        action();
   }
 
     render(){
@@ -40,7 +41,15 @@ export default class Instructions extends Component{
                    3) Flip (You can change question before answering it)
                 </Text>
 
-                 <Button title = "Ok" onPress = {()=>this.buttonClicked(() => navigate('Game'))} style={styles.btn} />
+
+             
+              <TouchableHighlight onPress = {()=>this.buttonClicked(() => navigate('Game'))} style={styles.buttonStyle} >
+                        <View >
+                           <Text   style={styles.buttonText}>
+                            Let's Play
+                            </Text>
+                        </View>
+          </TouchableHighlight>             
             </View>
         )
     }
