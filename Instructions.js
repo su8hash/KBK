@@ -6,15 +6,29 @@ import {
   Button
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import Sound from 'react-native-sound'
+
 import Game from './Game';
 import styles  from './styles'
 
 
 export default class Instructions extends Component{
+    constructor(){
+        super();
+         this.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
+         this.buttonClicked = this.buttonClicked.bind(this);
+    }
+
+     buttonClicked(action){
+         if(this.buttonSound) this.buttonSound.play();
+    action();
+  }
+
     render(){
-  const {navigate} = this.props.navigation ;
+       
+        const {navigate} = this.props.navigation ;
         return(
-            <View style={styles.container}>
+            <View style={styles.instructionContainer}>
                 <Text style={styles.instructions}>
                    Please Read This instuction These are different.
                    </Text>
@@ -26,7 +40,7 @@ export default class Instructions extends Component{
                    3) Flip (You can change question before answering it)
                 </Text>
 
-                 <Button title = "Ok" onPress = {()=>navigate('Game')} style={styles.btn} />
+                 <Button title = "Ok" onPress = {()=>this.buttonClicked(() => navigate('Game'))} style={styles.btn} />
             </View>
         )
     }

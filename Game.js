@@ -248,7 +248,7 @@ getNextQue(changeIndex){
 
         const {navigate} = this.props.navigation ;
         return(
-            <View style={styles.containerGame}>
+            <View style={styles.instructionContainer}>
                   <Modal
                   onRequestClose={() => {this.setState({pauseVisible:!this.state.pauseVisible})}}
                   visible={this.state.pauseVisible} 

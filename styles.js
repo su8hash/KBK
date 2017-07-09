@@ -1,6 +1,48 @@
 import {  StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
+  
+  gameContainer:{
+    flex:1,
+    padding:10,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    backgroundColor:'#bfc3c9'
+
+  },
+
+   instructionContainer:{
+    flex:1,
+    padding:10,
+    flexDirection:'column',
+    justifyContent:'flex-start'
+  },
+  topScore:{
+    
+  padding:20,
+  },
+  buttonStyle:{
+    width:250,
+    height :35,
+    borderRadius:19,
+    backgroundColor: '#33AAFF',
+    margin:10,
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  topScoreList:{
+    padding:10,
+    flexDirection:'row',
+    justifyContent:'space-between'
+  },
+  scoreContainer:{
+  width:80,
+  textAlign: 'left',
+  color: '#333333',
+  fontWeight: 'bold',
+  },
+ 
+
   container: {
     flex: 1,
     justifyContent: 'center',

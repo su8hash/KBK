@@ -14,7 +14,8 @@ import {
   BackHandler,
   TouchableHighlight,
   AsyncStorage,
-  FlatList
+  FlatList,
+  AppState
 } from 'react-native';
 import { StackNavigator   } from 'react-navigation';
 import OneSignal from 'react-native-onesignal'; 
@@ -42,22 +43,39 @@ export default class KBK extends Component {
           
    constructor(){
      super();
-     this.state = {sc:0,mute:false};
+     this.state = {sc:0,mute:false,whoosh:null};
      this.itemsRef = firebaseApp;
      this.top5Scores = null;
-     this.whoosh = new Sound('main_music.mp3', Sound.MAIN_BUNDLE, (error) => {
-      if (error) {
-        console.warn('failed to load the sound', error);
-    return;
-     } 
-  // loaded successfully
-  console.warn("loaded");
-     this.whoosh.setNumberOfLoops(-1);
-    this.whoosh.play();
-    });
-   }
+     
+  
+   this.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
+   this._handleAppStateChange = this._handleAppStateChange.bind(this);
+   this.buttonClicked = this.buttonClicked.bind(this);
+  }
+  
+  buttonClicked(action){
+   if(this.buttonSound) this.buttonSound.play();
+    action();
+  }
 
+componentWillUnmount() {
+  AppState.removeEventListener('change', this._handleAppStateChange);
+}
 
+_handleAppStateChange(currentAppState) {
+  
+  if(currentAppState === 'background') {
+    if(this.state.whoosh){
+      console.warn( "sound");
+      this.state.whoosh.pause();
+      this.state.whoosh.stop();
+    }
+  } 
+  if(currentAppState === 'active') {
+      // this.state.whoosh.stop();
+       this.state.whoosh.play();
+  }
+}
 
     componentWillMount() {
         OneSignal.inFocusDisplaying(2);
@@ -74,9 +92,26 @@ export default class KBK extends Component {
         }
 
     this.getHighScores(this.itemsRef);
+
+     this.state.whoosh = new Sound('main_music.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.warn('failed to load the sound', error);
+    return;
+     } 
+  // loaded successfully
+     this.state.whoosh.setNumberOfLoops(-1);
+     this.state.whoosh.setVolume(0.2);
+    this.state.whoosh.play();
+  });
+
     if(this.state.mute){
+
       // this.whoosh.setVolume(0);
+       
+    
     }
+        
+      AppState.addEventListener('change', this._handleAppStateChange);
    }
 
    getHighScores(itemRef){
@@ -93,11 +128,16 @@ export default class KBK extends Component {
 
    getHighScoreView(){
      if(this.state.top5Scores){
-     return <View>
-         <Text style={styles.bigText}>Top 5 Scores</Text>
+     return <View style={styles.topScore}>
+         <Text >Top 5 Scores</Text>
          <FlatList style={styles.list}
            data= {this.state.top5Scores}
-           renderItem={({item}) => <Text > {item.name+ " : " + item.score}</Text>}
+           renderItem={({item}) => <View style={styles.topScoreList}>
+               <Text style={styles.scoreContainer}> {item.name } </Text>
+               <Text > : </Text>
+               <Text style={[styles.scoreContainer,{width:50,textAlign:'left'}]}> {item.score}</Text>
+               </View>
+               }
         />
         </View>
      }
@@ -108,7 +148,7 @@ export default class KBK extends Component {
    render() {
     const {navigate} = this.props.navigation ;
     return (
-      <View style={styles.containerSpace}>
+      <View style={styles.gameContainer}>
         {this.getHighScoreView()}
         <View>
         <Text style={styles.welcome}>
@@ -121,15 +161,15 @@ export default class KBK extends Component {
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
-        <TouchableHighlight onPress = {()=>navigate('Instructions')} >
-          <View style={styles.button}>
+        <TouchableHighlight onPress = {()=>this.buttonClicked(() => navigate('Instructions'))} style={styles.buttonStyle} >
+          <View >
                <Text   style={styles.buttonText}>
                   Go to Game
                  </Text>
           </View>
           </TouchableHighlight>
-         <TouchableHighlight onPress = {()=>navigate('Instructions')} >
-          <View style={styles.button}>
+         <TouchableHighlight onPress = {()=> this.buttonClicked(() => BackHandler.exitApp())} style={styles.buttonStyle} >
+          <View >
                <Text   style={styles.buttonText}>
                    Exit
                  </Text>
