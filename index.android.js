@@ -43,26 +43,33 @@ export default class KBK extends Component {
           
    constructor(){
      super();
-     this.state = {sc:0};
+     this.state = {sc:0,buttonSound:null};
      this.itemsRef = firebaseApp;
      this.top5Scores = null;
+
      
   
-   this.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
    this.buttonClicked = this.buttonClicked.bind(this);
   }
   
   buttonClicked(action){
-   if(this.buttonSound) this.buttonSound.play();
+   if(this.state.buttonSound) this.state.buttonSound.play();
     action();
   }
 
 componentWillUnmount() {
+  
+  if(this.state.buttonSound) this.state.buttonSound.release();
 }
 
 
     componentWillMount() {
+      
         OneSignal.inFocusDisplaying(2);
+    }
+
+    componentWillUpdate(){
+      
     }
 
  componentDidMount(){
@@ -76,6 +83,7 @@ componentWillUnmount() {
         }
 
     this.getHighScores(this.itemsRef);
+    this.state.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
    }
 
    getHighScores(itemRef){

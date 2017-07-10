@@ -17,8 +17,15 @@ export  default class Loose extends Component{
      this.listners = [];
      this.state = {loading:false}
      this.fetchingAdd =false;
+       this.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
+    this.buttonClicked = this.buttonClicked.bind(this);
  }
 
+
+     buttonClicked(action){
+         if(this.buttonSound) this.buttonSound.play();
+        action();
+  }
  
  componentWillMount () {
         NativeAppEventEmitter.addListener(
@@ -54,7 +61,7 @@ export  default class Loose extends Component{
    getRetryWithAdd(){
        if(this.state.loading || this.fetchingAdd)
        return <Text>Loading .... </Text>
-       else return <Button title = "Watch Video to get another chance" onPress = {()=> this.showRewardedVideo()} style={styles.btn} />
+       else return <Button title = "Watch Video to get another chance" onPress = {this.buttonClicked(()=> this.showRewardedVideo())} style={styles.btn} />
    }
 
     render(){
@@ -65,8 +72,8 @@ export  default class Loose extends Component{
                     you have LOSS .Play Again to increase score
                 </Text>
                 {this.getRetryWithAdd()}
-                 <Button title = "Go to Home" onPress = {()=>this.props.navigateTo('Home')} style={styles.btn} />
-                 <Button title = "Play Again" onPress = {()=>this.props.navigateTo('Game')} style={styles.btn} />
+                 <Button title = "Go to Home" onPress = {this.buttonClicked(()=>this.props.navigateTo('Home'))} style={styles.btn} />
+                 <Button title = "Play Again" onPress = {this.buttonClicked(()=>this.props.navigateTo('Game'))} style={styles.btn} />
             </View>
         )
     }

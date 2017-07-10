@@ -65,7 +65,7 @@ constructor(){
     this.listners = [];
     this.itemsRef = firebaseApp;
     this.top5Scores = [];
-    this.state.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
+    
 
     this.instuctionDone = this.instuctionDone.bind(this);
     this.retry = this.retry.bind(this);
@@ -83,6 +83,7 @@ constructor(){
 componentDidMount(){
      this.state.clapSound = new Sound('win_clap.mp3', Sound.MAIN_BUNDLE);
      this.state.awwSound = new Sound('aww_loose.mp3', Sound.MAIN_BUNDLE);
+     this.state.buttonSound = new Sound('btn_sound.mp3', Sound.MAIN_BUNDLE);
      
       BackHandler.addEventListener('backPress', () => {
        this.setState({pauseVisible:!this.state.pauseVisible});
@@ -118,6 +119,9 @@ componentWillUnmount() {
     BackHandler.removeEventListener('backPress');
 
     this.listners.forEach((x)=>x.remove());    
+     if(this.state.clapSound) this.state.clapSound.release();
+     if(this.state.awwSound) this.state.awwSound.release();
+     if(this.state.buttonSound) this.state.buttonSound.release();
   }
 
 
@@ -362,7 +366,6 @@ getNextQue(changeIndex){
 
    
     check(value){
-      this.state.buttonSound.play();
         if(value){
         let res = false;
 
@@ -401,7 +404,7 @@ getNextQue(changeIndex){
             return;
         }
        
-       if(this.state.awwSound) 
+        if(!res && this.state.awwSound) 
           {
             this.state.awwSound.play();
           }
