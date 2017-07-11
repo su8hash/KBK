@@ -20,8 +20,6 @@ import Result from './Result';
 import Loose from './Loose';
 import Lifeline from './Lifeline';
 import Pause from './Pause';
-import score from './score.png';
-import home from './5050.png';
 
 import Data from './data.json'
 import styles  from './styles'
@@ -237,7 +235,7 @@ getAnsD(){
 
 getLifeLinebutton(){
     if(!this.state.lifelineInProgress)
-       return <Button title = "Use a Lifeline" onPress = {()=>this.buttonClicked(()=>this.setState({lifelineVisible:true}))}   style={styles.btn} />
+       return <Button title = "Lifeline" onPress = {()=>this.buttonClicked(()=>this.setState({lifelineVisible:true}))}   style={styles.btn} />
     else  switch(this.state.activeLifeline){
           case '5':
           return <Text>50/50 in progress</Text>
@@ -307,16 +305,14 @@ getNextQue(changeIndex){
                  <View style={styles.topHeader}>
 
                  <View style={styles.currentScore}>
-                  <Image source={URL=score} style={{height:25,width:75}} ></Image>
-                 <Text style={styles.bigText}>{this.state.score}</Text>
+                 <Text style={styles.bigText}>{'Score : ' + this.state.score}</Text>
                  </View>
                 
                   <View style={styles.currentScore}> 
                   {this.getLifeLinebutton()}
 
-                <TouchableHighlight onPress = {()=>this.buttonClicked(() => navigate('Home'))}>
+                <TouchableHighlight onPress = {()=>this.buttonClicked(() => navigate('Home'))}  style={styles.btn}>
                       <View style={styles.imageText}>
-                            <Image source={URL=home} style={{height:45,width:75}} ></Image>
                             <Text  style={styles.buttonText}>
                                 Home 
                             </Text> 
