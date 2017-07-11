@@ -69,7 +69,7 @@ componentWillMount () {
 
     getFlip(){
         if(this.props.availableLifeline.indexOf('F') > -1)
-               return <Button title = "Flip" onPress = {this.buttonClicked(()=>this.props.chooseLifeline('F')} style={styles.btn} />
+               return <Button title = "Flip" onPress = {this.buttonClicked(()=>this.props.chooseLifeline('F'))} style={styles.btn} />
         else return null;
     }
 

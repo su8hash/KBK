@@ -11,11 +11,8 @@ export default styles = StyleSheet.create({
   },
 
   ansContainer:{
-    flex:1,
-    padding:10,
     flexDirection:'row',
-    justifyContent:'space-around',
-    backgroundColor:'#bfc3c9'
+    justifyContent:'space-between',
   },
 
   questionConatainer:{
@@ -89,39 +86,38 @@ flexDirection:'column',
     backgroundColor: '#F5FCFF',
   },
   containerSpace: {
-    flex: 1,
+    flex: .5,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'red',
     flexDirection:'row'
   },
    containerGame: {
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#bfc3c9',
     flexDirection:'column'
   },
   containerGameRight: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+   
     flexDirection:'column'
   },
   welcome: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: 'left',
     margin: 10,
   },
   instructions: {
-    textAlign: 'center',
+    textAlign: 'left',
     color: '#333333',
     marginBottom: 5,
   },
    bigText: {
     fontSize: 25,
-    textAlign: 'center',
+    textAlign: 'left',
     color: '#333333',
     marginBottom: 5,
   },
@@ -138,9 +134,7 @@ flexDirection:'column',
     color:'#FFFFFF',
   },
 
-   ansContainer:{
-    margin:1
-  },
+
   
     list: {
         flex: 1,

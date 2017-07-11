@@ -330,24 +330,26 @@ getNextQue(changeIndex){
 
 
                 <View style={styles.questionConatainer}>
-                 <Text style={styles.bigText}>{"Q" + this.state.queNo + ". " + this.state.CurrentSet.que}</Text>
+                 <Text style={styles.bigText} numberOfLines={3}>{this.getQueText()}</Text>
                  </View>
 
-                <View style={styles.gameContainer}> 
-                 <View style={styles.containerGame}> 
+                <View style={styles.ansContainer}> 
+                 <View style={styles.containerGameRight}> 
                      {this.getAnsA()}
-                {this.getAnsB()}
+                     {this.getAnsB()}
                 </View>
-                  <View style={styles.containerGameRight}> 
-                {this.getAnsC()}
-                {this.getAnsD()}
+                <View style={styles.containerGameRight}> 
+                    {this.getAnsC()}
+                    {this.getAnsD()}
                 </View>
                 </View> 
             </View>
         )
     }
    
-
+ getQueText(){
+   return "Q" + this.state.queNo + ". " + this.state.CurrentSet.que
+ }
 
    saveScore(a){
          try {
